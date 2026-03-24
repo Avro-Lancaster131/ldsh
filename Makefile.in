@@ -1,0 +1,21 @@
+CXX=@CXX@
+CXXFLAGS=@CXXFLAGS@
+TARGET=@TARGET@
+PREFIX=@PREFIX@
+
+all: $(TARGET)
+
+$(TARGET): ldsh.c
+	$(CXX) $(CXXFLAGS) ldsh.c -o $(TARGET) 
+
+install: $(TARGET)
+	install -Dm775 $(TARGET) $(PREFIX)/bin/$(TARGET)
+
+clean:
+	rm -f $(TARGET)
+	rm -f Makefile
+uninstall:
+	rm -f $(PREFIX)/bin/$(TARGET)
+
+
+

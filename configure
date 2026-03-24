@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Default values
+CXX=${CXX:-gcc}
+CXXFLAGS=${CXXFLAGS:--O2}
+TARGET=${TARGET:-ldsh}
+PREFIX=/usr/local
+
+#parse options
+for arg in "$@"; do
+    case $arg in
+	--prefix=*)
+		PREFIX="${arg#*=}"
+		;;
+	--help|-h)
+		echo "Usage: ./configure [args]"
+		echo "Args:"
+		echo "	--prefix=PATH	install files to PATH (default is /usr/local)"
+		echo "	--help, -h	show this help message"
+		exit 0
+		;;
+	*)
+		echo "Unknown option $arg"
+		echo "Try './configure --help'"
+		exit 1
+		;;
+	esac
+done
+
+#gen makefile
+sed -e "s|@CXX@|$CXX|g" \
+    -e "s|@CXXFLAGS@|$CXXFLAGS|g" \
+    -e "s|@TARGET@|$TARGET|g" \
+    -e "s|@PREFIX@|$PREFIX|g" \
+	Makefile.in > Makefile
+
+echo "Configuration Complete."
+echo "Now type 'make' to build, and 'make install' to install, if you wanna recompile, type make clean." 

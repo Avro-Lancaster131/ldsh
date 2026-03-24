@@ -1,0 +1,27 @@
+Limbo Dirt SHell v0.1.1 README
+Summary:
+ldsh is a lightweight shell, only around 15.9KB, 15.5KiB in size once compiled.
+It's quite basic, only running commands and outputting error codes, meaning it does not have any form of shell script support.
+(To run shell scripts simply write bash ./foo.sh, or whatever shell you use)
+
+Installation:
+ldsh is built with the make build system, so simply follow the instructions of that.
+Default installation directory is /usr/local/bin.
+(run ./configure, then make, and then make install)
+
+Built in commands:
+While there aren't many, ldsh has a few built in commands, which may be useful to know.
+echo: prints all arguments past arg0
+exit: leaves the shell and either returns you to your previous shell, bash, zsh or fish, or if ldsh is your first shell, exits the terminal.
+cd: changes directory, checks if arg1 is a real directory, then changes to it
+ldsh --version: prints the version of ldsh.
+
+How often will this be updated?
+Not really often if I'm being honest.
+I am one person with practically 0 knowledge of C.
+This is my greatest project yet, being only 110 lines.
+If you have suggestions to add, add them where normal bugs are reported.
+
+Licensing:
+This is free software licensed under GPLv3+
+Read LICENSE for more details.
