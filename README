@@ -1,6 +1,6 @@
-Limbo Dirt SHell v0.1.1 README
+Limbo Dirt SHell v0.2 README
 Summary:
-ldsh is a lightweight shell, only around 15.9KB, 15.5KiB in size once compiled.
+ldsh is a lightweight shell, only around <20KB in size once compiled.
 It's quite basic, only running commands and outputting error codes, meaning it does not have any form of shell script support.
 (To run shell scripts simply write bash ./foo.sh, or whatever shell you use)
 
@@ -15,11 +15,13 @@ echo: prints all arguments past arg0
 exit: leaves the shell and either returns you to your previous shell, bash, zsh or fish, or if ldsh is your first shell, exits the terminal.
 cd: changes directory, checks if arg1 is a real directory, then changes to it
 ldsh --version: prints the version of ldsh.
+help: prints this help menu inside of the shell
+PS1: sets the ps1 variable inside of the shell.
 
 How often will this be updated?
 Not really often if I'm being honest.
 I am one person with practically 0 knowledge of C.
-This is my greatest project yet, being only 110 lines.
+This is my greatest project yet, being only <200 lines.
 If you have suggestions to add, add them where normal bugs are reported.
 
 Licensing:

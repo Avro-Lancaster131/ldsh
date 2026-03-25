@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /*  Limbo Dirt Shell, Minimal shell that processes input and output
     Copyright (C) 2026 Michael Bogicevic
@@ -22,30 +23,82 @@
 
 char *builtins(int n) {
 	static char *cmds[] = {
-		"Command neither implemented nor found.", "echo", "exit", "cd", "--version"
+		"Command neither implemented nor found.", "echo", "exit", "cd", "--version", "help", "PS1"
 	};
-	return (n < 1 || n > 4) ? cmds[0] : cmds[n];
+	return (n < 1 || n > 7) ? cmds[0] : cmds[n];
 }
-
+char *ps1array(int n) {
+	static char *back[] = {
+		"Not supported", "u", "w", "$"
+		};
+	return (n < 1 || n > 4) ? back[0] : back[n];
+}
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		if (strcmp(argv[1], builtins(4)) == 0) {
-			printf("Limbo Dirt SHell v0.1.1 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
-		exit(0);
+			printf("Limbo Dirt SHell v0.2.0 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
+			exit(0);
 		}
 	}
-	printf("Limbo Dirt SHell v0.1.1, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
+	printf("Limbo Dirt SHell v0.2.0, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
 
-       	char buffer[1025];
-        int cmd, pos, i;
+       	char buffer[2049];
+        int cmd, pos, i, f;
+	char *ps2;
+	char *ps1;
+	int len;
+	ps1 = getenv("PS1");
+	if (ps1 != NULL) {
+		len = strlen(ps1);
+	}
+	char *pstoken[len];
+	ps2 = NULL;
+	for (i = 0; i < len + 1; ++i) {
+		pstoken[i] = NULL;
+	}
+
 	while (true) {
-
+		//ldsh 0.2 PS1 parsing
 		char *cwd = getcwd(NULL, 0);
-		printf("user@ldsh%s ", cwd);
-		free(cwd);
+		if (ps1 != NULL) {
+			for (i = 0; i < len; ++i) {
+				if (ps1[i] == '\\') {
+					if (ps1[i + 1] == ps1array(1)[0]) {
+						pstoken[i] = getenv("USER");
+						pstoken[i + 1] = "@ldsh";
+					}
+					if (ps1[i + 1] == ps1array(2)[0]) {
+                                                pstoken[i] = cwd;
+                                        }
+                                        if (ps1[i + 1] == ps1array(3)[0]) {
+                                                pstoken[i] = "$";
+                                        }
+				}
+			}
+		} else if (ps1 == NULL) {
+			ps2 = "user@ldsh";
+		}
 
+		if (ps2 != NULL) {
+			printf("%s\n", ps2);
+			if (cwd == NULL) {
+				cwd = "?";
+                                printf("%s%s ", ps2, cwd);
+			} else {
+				printf("%s%s ", ps2, cwd);
+				free(cwd);
+			}
+		} else if (ps1 != NULL) {
+			for (f = 0; f < i; ++f) {
+				if (pstoken[f] != NULL) {
+					printf("%s", pstoken[f]);
+				}
+			}
+			printf(" ");
+			free(cwd);
+		}
 		//init pos and buffer for input
-		for (pos = 0; pos < 1025; ++pos) {
+		for (pos = 0; pos < 2049; ++pos) {
 			buffer[pos] = '\0';
 		}
 		 //start input section
@@ -56,10 +109,9 @@ int main(int argc, char *argv[]) {
 			++pos;
 		}
 
-		if (pos > 1024) {
+		if (pos > 2048) {
 	       	        printf("!ERROR!: pos = %d\n", pos);
-			break;
-			return 1;
+			exit(1);
 		}
 
 		buffer[pos] = '\0';
@@ -118,6 +170,14 @@ int main(int argc, char *argv[]) {
 					perror("cd");
 				}
 			}
+		} else if (strcmp(token[0], builtins(5)) == 0) {
+			printf("echo: prints all arguments past arg0\nexit: leaves the shell and either returns you to your previous shell, bash, zsh or fish, or if ldsh is your first shell, exits the terminal.\ncd: changes directory, checks if arg1 is a real directory, then changes to it\nldsh --version: prints the version of ldsh.\nhelp: prints this help menu inside of the shell\nPS1: sets the ps1 variable inside of the shell.\n");
+		} else if (strcmp(token[0], builtins(6)) == 0) {
+			ps1 = NULL;
+			for (i = 0; i < len + 1; ++i) {
+				pstoken[i] = NULL;
+			}
+			ps1 = strdup(token[1]);
 		} else {
 			if ((pid = fork()) == 0) {
 				execvp(token[0], token);
