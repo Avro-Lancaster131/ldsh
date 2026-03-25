@@ -80,7 +80,6 @@ int main(int argc, char *argv[]) {
 		}
 
 		if (ps2 != NULL) {
-			printf("%s\n", ps2);
 			if (cwd == NULL) {
 				cwd = "?";
                                 printf("%s%s ", ps2, cwd);
