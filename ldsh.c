@@ -29,51 +29,84 @@ char *builtins(int n) {
 }
 char *ps1array(int n) {
 	static char *back[] = {
-		"Not supported", "u", "w", "$"
+		"Not supported", "u", "w", "$", "red", "grn", "blu"
 		};
-	return (n < 1 || n > 4) ? back[0] : back[n];
+	return (n < 1 || n > 6) ? back[0] : back[n];
 }
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		if (strcmp(argv[1], builtins(4)) == 0) {
-			printf("Limbo Dirt SHell v0.2.0 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
+			printf("Limbo Dirt SHell v0.3.0-rc1 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
 			exit(0);
 		}
 	}
-	printf("Limbo Dirt SHell v0.2.0, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
+	printf("Limbo Dirt SHell v0.3.0-rc1, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
 
        	char buffer[2049];
         int cmd, pos, i, f;
 	char *ps2;
 	char *ps1;
-	int len;
+	int len, colour, g;
 	ps1 = getenv("PS1");
-	if (ps1 != NULL) {
-		len = strlen(ps1);
-	}
+	len = 128;
 	char *pstoken[len];
 	ps2 = NULL;
-	for (i = 0; i < len + 1; ++i) {
-		pstoken[i] = NULL;
-	}
+	char *clr[5];
+	int place;
+	ps1 = NULL;
 
 	while (true) {
+		g = 0;
+		colour = 0;
+		place = 0;
+
 		//ldsh 0.2 PS1 parsing
 		char *cwd = getcwd(NULL, 0);
+		for (i = 0; i < 6; ++i) {
+			clr[i] = NULL;
+		}
+		for (i = 0; i < len + 1; ++i) {
+			pstoken[i] = NULL;
+		}
 		if (ps1 != NULL) {
 			for (i = 0; i < len; ++i) {
 				if (ps1[i] == '\\') {
 					if (ps1[i + 1] == ps1array(1)[0]) {
-						pstoken[i] = getenv("USER");
-						pstoken[i + 1] = "@ldsh";
+						pstoken[place] = getenv("USER");
+						pstoken[place + 1] = "@ldsh";
+						place = place + 2;
 					}
 					if (ps1[i + 1] == ps1array(2)[0]) {
-                                                pstoken[i] = cwd;
+                                                pstoken[place] = cwd;
+						++place;
                                         }
                                         if (ps1[i + 1] == ps1array(3)[0]) {
-                                                pstoken[i] = "$";
+                                                pstoken[place] = "$";
+						++place;
                                         }
+					if (ps1[i + 1] == ps1array(4)[0] && ps1[i + 2] == ps1array(4)[1] && ps1[i + 3] == ps1array(4)[2]) {
+						clr[g] = "\033[31m";
+						colour = 1;
+						++place;
+						++g;
+					}
+					if (ps1[i + 1] == ps1array(5)[0] && ps1[i + 2] == ps1array(5)[1] && ps1[i + 3] == ps1array(5)[2]) {
+						clr[g] = "\033[32m";
+						colour = 1;
+						++place;
+						++g;
+					}
+					if (ps1[i + 1] == ps1array(6)[0] && ps1[i + 2] == ps1array(6)[1] && ps1[i + 3] == ps1array(6)[2]) {
+						clr[g] = "\033[34m";
+						colour = 1;
+						++place;
+						++g;
+					}
 				}
+			}
+			if (g > 5) {
+				printf("\033[31m!ERROR!\033[0m amount of colours is greater than 5!\n");
+				exit(1);
 			}
 		} else if (ps1 == NULL) {
 			ps2 = "user@ldsh";
@@ -88,13 +121,26 @@ int main(int argc, char *argv[]) {
 				free(cwd);
 			}
 		} else if (ps1 != NULL) {
-			for (f = 0; f < i; ++f) {
-				if (pstoken[f] != NULL) {
-					printf("%s", pstoken[f]);
+			if (colour == 0) {
+				for (f = 0; f < place; ++f) {
+					if (pstoken[f] != NULL) {
+						printf("%s", pstoken[f]);
+					}
 				}
-			}
+			} else if (colour != 0) {
+				g = 0;
+                                for (f = 0; f < place; ++f) {
+	                        	if (pstoken[f] != NULL) {
+				               printf("%s", pstoken[f]);
+                	                } else if (pstoken[f] == NULL) {
+						printf("%s", clr[g]);
+						++g;
+					}
+				}
+				printf("\033[0m");
 			printf(" ");
 			free(cwd);
+			}
 		}
 		//init pos and buffer for input
 		for (pos = 0; pos < 2049; ++pos) {
@@ -109,7 +155,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		if (pos > 2048) {
-	       	        printf("!ERROR!: pos = %d\n", pos);
+	       	        printf("\033[31m!ERROR!\033[0m: pos = %d\n", pos);
 			exit(1);
 		}
 
@@ -158,7 +204,7 @@ int main(int argc, char *argv[]) {
 			}
 			printf("\n");
 		} else if (strcmp(token[0], builtins(2)) == 0) {
-			goto finish;
+			exit(0);
 		} else if (strcmp(token[0], builtins(3)) == 0) {
 			if (token[1] != NULL) {
 				if (chdir(token[1]) != 0) {
@@ -172,11 +218,23 @@ int main(int argc, char *argv[]) {
 		} else if (strcmp(token[0], builtins(5)) == 0) {
 			printf("echo: prints all arguments past arg0\nexit: leaves the shell and either returns you to your previous shell, bash, zsh or fish, or if ldsh is your first shell, exits the terminal.\ncd: changes directory, checks if arg1 is a real directory, then changes to it\nldsh --version: prints the version of ldsh.\nhelp: prints this help menu inside of the shell\nPS1: sets the ps1 variable inside of the shell.\n");
 		} else if (strcmp(token[0], builtins(6)) == 0) {
-			ps1 = NULL;
-			for (i = 0; i < len + 1; ++i) {
-				pstoken[i] = NULL;
+			if (token[1] != NULL) {
+				ps1 = NULL;
+				for (i = 0; i < len + 1; ++i) {
+					pstoken[i] = NULL;
+				}
+				ps2 = NULL;
+				ps1 = strdup(token[1]);
+			} else if (token[1] == NULL) {
+				if (ps1 != NULL) {
+                                	for (i = 0; i < len + 1; ++i) {
+						pstoken[i] = NULL;
+                        	        }
+					printf("%s\n", ps1);
+				} else if (ps2 != NULL) {
+					printf("%s\n", ps2);
+				}
 			}
-			ps1 = strdup(token[1]);
 		} else {
 			if ((pid = fork()) == 0) {
 				execvp(token[0], token);
@@ -184,7 +242,7 @@ int main(int argc, char *argv[]) {
 				_exit(1);
 			}
 			if (pid < 0) {
-				printf("!ERROR!: fork() failed! Exiting...\n");
+				printf("\033[31m!ERROR!\033[0m: fork() failed! Exiting...\n");
 				return 1;
 			}
 			if (pid > 0) {
@@ -192,7 +250,4 @@ int main(int argc, char *argv[]) {
 			}
 		}
 	}
-
-	finish:
-	exit(0);
 }
