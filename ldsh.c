@@ -29,18 +29,18 @@ char *builtins(int n) {
 }
 char *ps1array(int n) {
 	static char *back[] = {
-		"Not supported", "u", "w", "$", "red", "grn", "blu"
+		"Not supported", "u", "w", "$", "red", "grn", "blu", "clr"
 		};
-	return (n < 1 || n > 6) ? back[0] : back[n];
+	return (n < 1 || n > 7) ? back[0] : back[n];
 }
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		if (strcmp(argv[1], builtins(4)) == 0) {
-			printf("Limbo Dirt SHell v0.3.0-rc1 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
+			printf("Limbo Dirt SHell v0.3.0-rc2 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
 			exit(0);
 		}
 	}
-	printf("Limbo Dirt SHell v0.3.0-rc1, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
+	printf("Limbo Dirt SHell v0.3.0-rc2, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
 
        	char buffer[2049];
         int cmd, pos, i, f;
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 	len = 128;
 	char *pstoken[len];
 	ps2 = NULL;
-	char *clr[5];
+	char *clr[10];
 	int place;
 	ps1 = NULL;
 
@@ -102,10 +102,16 @@ int main(int argc, char *argv[]) {
 						++place;
 						++g;
 					}
+					if (ps1[i + 1] == ps1array(7)[0] && ps1[i + 2] == ps1array(7)[1] && ps1[i + 3] == ps1array(7)[2]) {
+						clr[g] = "\033[0m";
+						++place;
+						++g;
+					}
+
 				}
 			}
-			if (g > 5) {
-				printf("\033[31m!ERROR!\033[0m amount of colours is greater than 5!\n");
+			if (g > 10) {
+				printf("\033[31m!ERROR!\033[0m amount of colours is greater than 10!\n");
 				exit(1);
 			}
 		} else if (ps1 == NULL) {

@@ -1,4 +1,4 @@
-Limbo Dirt SHell v0.3.0-rc1 README
+Limbo Dirt SHell v0.3.0-rc2 README
 Summary:
 ldsh is a lightweight shell, only around ~20KB in size once compiled.
 It's quite basic, only running commands and outputting error codes, meaning it does not have any form of shell script support.
@@ -17,7 +17,7 @@ cd: changes directory, checks if arg1 is a real directory, then changes to it
 ldsh --version: prints the version of ldsh.
 help: prints this help menu inside of the shell
 PS1: sets the ps1 variable inside of the shell.
-PS1 usage: \grn, \red and \blu makes the next segment(s) green, red and blue respectively, (you can only have 5 colours). \u your USER, \w for the working directory \$ just prints $.
+PS1 usage: \grn, \red and \blu makes the next segment(s) green, red and blue respectively, \clr sets it to the default (you can only have 5 colours). \u your USER, \w for the working directory \$ just prints $.
 
 How often will this be updated?
 Not really often if I'm being honest.
