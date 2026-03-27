@@ -1,4 +1,4 @@
-Limbo Dirt SHell v0.3.0-rc2 README
+Limbo Dirt SHell v0.3.0 README
 Summary:
 ldsh is a lightweight shell, only around ~20KB in size once compiled.
 It's quite basic, only running commands and outputting error codes, meaning it does not have any form of shell script support.
@@ -16,15 +16,18 @@ exit: leaves the shell and either returns you to your previous shell, bash, zsh 
 cd: changes directory, checks if arg1 is a real directory, then changes to it
 ldsh --version: prints the version of ldsh.
 help: prints this help menu inside of the shell
-PS1: sets the ps1 variable inside of the shell.
-PS1 usage: \grn, \red and \blu makes the next segment(s) green, red and blue respectively, \clr sets it to the default (you can only have 5 colours). \u your USER, \w for the working directory \$ just prints $.
+PS1: sets the ps1 variable inside of the shell. (Prints if args are empty)
+PS1 usage: there are 17 total args, \grn, \red, \blu, \clr, \yel, \cyn, \mag, \bred, \bblu, \bgrn, \byel, \bmag, \bcyn and \wht.
+if you type \wh neither w nor \wht will be interpreted), (you can only have 15 colours), (the b prefix is for bright, or the \033[9*m series of ASCII codes). 
+PS1 usage: for letters, \u prints your USER, or the USER variable, \w for the working directory \$ just prints $.
 
 How often will this be updated?
-Not really often if I'm being honest.
+I don't know anymore. I've updated this too frequently in the beginning to know what I really am capable of.
 I am one person with practically 0 knowledge of C.
-This is my greatest project yet, being only ~250 lines.
+This is my greatest project yet, it's ballooning in size, it went from 73 lines - 320 in like 3 versions.
 If you have suggestions to add, add them where normal bugs are reported.
 
 Licensing:
 This is free software licensed under GPLv3+
 Read LICENSE for more details.
+

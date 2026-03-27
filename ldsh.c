@@ -29,18 +29,18 @@ char *builtins(int n) {
 }
 char *ps1array(int n) {
 	static char *back[] = {
-		"Not supported", "u", "w", "$", "red", "grn", "blu", "clr"
+		"Not supported", "u", "w", "$", "red", "grn", "blu", "clr", "yel", "mag", "cyn", "bred", "bblu", "bgrn", "byel", "bmag", "bcyn", "wht"
 		};
-	return (n < 1 || n > 7) ? back[0] : back[n];
+	return (n < 1 || n > 17) ? back[0] : back[n];
 }
 int main(int argc, char *argv[]) {
 	if (argc > 1) {
 		if (strcmp(argv[1], builtins(4)) == 0) {
-			printf("Limbo Dirt SHell v0.3.0-rc2 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
+			printf("Limbo Dirt SHell v0.3.0 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
 			exit(0);
 		}
 	}
-	printf("Limbo Dirt SHell v0.3.0-rc2, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
+	printf("Limbo Dirt SHell v0.3.0, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
 
        	char buffer[2049];
         int cmd, pos, i, f;
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 	len = 128;
 	char *pstoken[len];
 	ps2 = NULL;
-	char *clr[10];
+	char *clr[15];
 	int place;
 	ps1 = NULL;
 
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 						pstoken[place + 1] = "@ldsh";
 						place = place + 2;
 					}
-					if (ps1[i + 1] == ps1array(2)[0]) {
+					if (ps1[i + 1] == ps1array(2)[0] && ps1[i + 2] != ps1array(17)[1]) {
                                                 pstoken[place] = cwd;
 						++place;
                                         }
@@ -104,13 +104,74 @@ int main(int argc, char *argv[]) {
 					}
 					if (ps1[i + 1] == ps1array(7)[0] && ps1[i + 2] == ps1array(7)[1] && ps1[i + 3] == ps1array(7)[2]) {
 						clr[g] = "\033[0m";
+                                                colour = 1;
 						++place;
 						++g;
 					}
+                                        if (ps1[i + 1] == ps1array(8)[0] && ps1[i + 2] == ps1array(8)[1] && ps1[i + 3] == ps1array(8)[2]) {
+                                                clr[g] = "\033[93m";
+                                                colour = 1;
+                                                ++place;
+                                                ++g;
+                                        }
+                                        if (ps1[i + 1] == ps1array(9)[0] && ps1[i + 2] == ps1array(9)[1] && ps1[i + 3] == ps1array(9)[2]) {
+                                                clr[g] = "\033[35m";
+                                                colour = 1;
+                                                ++place;
+                                                ++g;
+                                        }
+                                        if (ps1[i + 1] == ps1array(10)[0] && ps1[i + 2] == ps1array(10)[1] && ps1[i + 3] == ps1array(10)[2]) {
+                                                clr[g] = "\033[36m";
+                                                colour = 1;
+                                                ++place;
+                                                ++g;
+                                        }
+                                        if (ps1[i + 1] == ps1array(11)[0] && ps1[i + 2] == ps1array(11)[1] && ps1[i + 3] == ps1array(11)[2] && ps1[i + 4] == ps1array(11)[3]) {
+                                                clr[g] = "\033[91m";
+                                                colour = 1;
+                                                ++place;
+                                                ++g;
+                                        }
+                                        if (ps1[i + 1] == ps1array(12)[0] && ps1[i + 2] == ps1array(12)[1] && ps1[i + 3] == ps1array(12)[2] && ps1[i + 4] == ps1array(12)[3]) {
+                                                clr[g] = "\033[94m";
+                                                colour = 1;
+                                                ++place;
+                                                ++g;
+                                        }
+                                        if (ps1[i + 1] == ps1array(13)[0] && ps1[i + 2] == ps1array(13)[1] && ps1[i + 3] == ps1array(13)[2] && ps1[i + 4] == ps1array(13)[3]) {
+                                                clr[g] = "\033[92m";
+                                                colour = 1;
+                                                ++place;
+                                                ++g;
+                                        }
+                                        if (ps1[i + 1] == ps1array(14)[0] && ps1[i + 2] == ps1array(14)[1] && ps1[i + 3] == ps1array(14)[2] && ps1[i + 4] == ps1array(14)[3]) {
+                                                clr[g] = "\033[93m";
+                                                colour = 1;
+                                                ++place;
+                                                ++g;
+                                        }
+                                        if (ps1[i + 1] == ps1array(15)[0] && ps1[i + 2] == ps1array(15)[1] && ps1[i + 3] == ps1array(15)[2] && ps1[i + 4] == ps1array(15)[3]) {
+                                                clr[g] = "\033[95m";
+                                                colour = 1;
+                                                ++place;
+                                                ++g;
+					}
+                                        if (ps1[i + 1] == ps1array(16)[0] && ps1[i + 2] == ps1array(16)[1] && ps1[i + 3] == ps1array(16)[2] && ps1[i + 4] == ps1array(16)[3]) {
+                                                clr[g] = "\033[96m";
+                                                colour = 1;
+                                                ++place;
+                                                ++g;
+                                        }
+                                        if (ps1[i + 1] == ps1array(17)[0] && ps1[i + 2] == ps1array(17)[1] && ps1[i + 3] == ps1array(17)[2]) {
+                                                clr[g] = "\033[97m";
+                                        	colour = 1;
+					        ++place;
+                                                ++g;
+                                        }
 
 				}
 			}
-			if (g > 10) {
+			if (g > 15) {
 				printf("\033[31m!ERROR!\033[0m amount of colours is greater than 10!\n");
 				exit(1);
 			}
