@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 		for (i = 0; i < 6; ++i) {
 			clr[i] = NULL;
 		}
-		for (i = 0; i < len + 1; ++i) {
+		for (i = 0; i < len; ++i) {
 			pstoken[i] = NULL;
 		}
 		if (ps1 != NULL) {
@@ -287,14 +287,14 @@ int main(int argc, char *argv[]) {
 		} else if (strcmp(token[0], builtins(6)) == 0) {
 			if (token[1] != NULL) {
 				ps1 = NULL;
-				for (i = 0; i < len + 1; ++i) {
+				for (i = 0; i < len; ++i) {
 					pstoken[i] = NULL;
 				}
 				ps2 = NULL;
 				ps1 = strdup(token[1]);
 			} else if (token[1] == NULL) {
 				if (ps1 != NULL) {
-                                	for (i = 0; i < len + 1; ++i) {
+                                	for (i = 0; i < len; ++i) {
 						pstoken[i] = NULL;
                         	        }
 					printf("%s\n", ps1);
