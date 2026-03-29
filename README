@@ -1,6 +1,6 @@
-Limbo Dirt SHell v0.3.0 README
+Limbo Dirt SHell v0.4.0-rc1 README
 Summary:
-ldsh is a lightweight shell, only around ~20KB in size once compiled.
+ldsh is a lightweight shell, only around ~25KB in size once compiled.
 It's quite basic, only running commands and outputting error codes, meaning it does not have any form of shell script support.
 (To run shell scripts simply write bash ./foo.sh, or whatever shell you use)
 
@@ -20,14 +20,21 @@ PS1: sets the ps1 variable inside of the shell. (Prints if args are empty)
 PS1 usage: there are 17 total args, \grn, \red, \blu, \clr, \yel, \cyn, \mag, \bred, \bblu, \bgrn, \byel, \bmag, \bcyn and \wht.
 if you type \wh neither w nor \wht will be interpreted), (you can only have 15 colours), (the b prefix is for bright, or the \033[9*m series of ASCII codes). 
 PS1 usage: for letters, \u prints your USER, or the USER variable, \w for the working directory \$ just prints $.
+Ctrl + Commands:
+Ctrl + C: (It will kill the child process in release 0.4.0 I promise) Discards the current command and prints a new prompt.
+Ctrl + L: Clears the screen.
+Ctrl + \: Emergency Exit from the shell, Don't know why you'd need this, but it's there.
 
 How often will this be updated?
 I don't know anymore. I've updated this too frequently in the beginning to know what I really am capable of.
 I am one person with practically 0 knowledge of C.
-This is my greatest project yet, it's ballooning in size, it went from 73 lines - 320 in like 3 versions.
+This is my greatest project yet, it's ballooning in size, it went from 73 lines - ~540 in like 4 versions. (I added like 220 lines this version)
 If you have suggestions to add, add them where normal bugs are reported.
 
 Licensing:
 This is free software licensed under GPLv3+
 Read LICENSE for more details.
 
+Bug Reporting:
+If you encounter bugs please feel free to reach out and file a report!
+You can file them on github and I'll get to them when I get to them.
