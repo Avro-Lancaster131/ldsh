@@ -20,6 +20,7 @@ PS1: sets the ps1 variable inside of the shell. (Prints if args are empty)
 PS1 usage: there are 17 total args, \grn, \red, \blu, \clr, \yel, \cyn, \mag, \bred, \bblu, \bgrn, \byel, \bmag, \bcyn and \wht.
 if you type \wh neither w nor \wht will be interpreted), (you can only have 15 colours), (the b prefix is for bright, or the \033[9*m series of ASCII codes). 
 PS1 usage: for letters, \u prints your USER, or the USER variable, \w for the working directory \$ just prints $.
+history: prints history number, then command, just like in bash. (history only goes back 100 lines, and is reset every time the shell is entered)
 Ctrl + Commands:
 Ctrl + C: Either Kills the child process or discards the current command and prints a new prompt.
 Ctrl + L: Clears the screen.

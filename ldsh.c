@@ -25,9 +25,9 @@
 
 char *builtins(int n) {
 	static char *cmds[] = {
-		"Command neither implemented nor found.", "echo", "exit", "cd", "--version", "help", "PS1"
+		"Command neither implemented nor found.", "echo", "exit", "cd", "--version", "help", "PS1", "history"
 	};
-	return (n < 1 || n > 7) ? cmds[0] : cmds[n];
+	return (n < 1 || n > 8) ? cmds[0] : cmds[n];
 }
 
 char *ps1array(int n) {
@@ -501,7 +501,7 @@ int main(int argc, char *argv[]) {
 				}
 			}
 		} else if (strcmp(token[0], builtins(5)) == 0) {
-			printf("echo: prints all arguments past arg0\nexit: leaves the shell and either returns you to your previous shell, bash, zsh or fish, or if ldsh is your first shell, exits the terminal.\ncd: changes directory, checks if arg1 is a real directory, then changes to it\nldsh --version: prints the version of ldsh.\nhelp: prints this help menu inside of the shell\nPS1: sets the ps1 variable inside of the shell.\n");
+			printf("echo: prints all arguments past arg0\nexit: leaves the shell and either returns you to your previous shell, bash, zsh or fish, or if ldsh is your first shell, exits the terminal.\ncd: changes directory, checks if arg1 is a real directory, then changes to it\nldsh --version: prints the version of ldsh.\nhelp: prints this help menu inside of the shell\nPS1: sets the ps1 variable inside of the shell.\nhistory: prints all previously typed commands.");
 		} else if (strcmp(token[0], builtins(6)) == 0) {
 			if (token[1] != NULL) {
 				ps2 = NULL;
@@ -519,6 +519,11 @@ int main(int argc, char *argv[]) {
 					}
 					printf("%s\n", ps2);
 				}
+			}
+		} else if (strcmp(token[0], builtins(7)) == 0) {
+			for (i = 0; i < hcount; ++i) {
+				printf("\n%d\t%s", i, history[i]);
+				fflush(stdout);
 			}
 		} else {
 			n = write(STDOUT_FILENO, "\n", 1);
