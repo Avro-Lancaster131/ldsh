@@ -43,6 +43,9 @@ void ExitRawMode() {
 }
 
 void TermRawMode() {
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 	tcgetattr(STDIN_FILENO, &orig_termios);
 	atexit(ExitRawMode);
 	struct termios raw = orig_termios;
@@ -65,6 +68,7 @@ char *history[100];
 int hpos, hcount;
 int updownarg;
 char *cwd;
+int pid;
 
 void ps1eval() {
 	cwd = getcwd(NULL, 0);
@@ -284,11 +288,11 @@ int main(int argc, char *argv[]) {
         }
 	if (argc > 1) {
 		if (strcmp(argv[1], builtins(4)) == 0) {
-			printf("Limbo Dirt SHell v0.4.0-rc1 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
+			printf("Limbo Dirt SHell v0.4.0 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
 			exit(0);
 		}
 	}
-	printf("Limbo Dirt SHell v0.4.0-rc1, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
+	printf("Limbo Dirt SHell v0.4.0, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
 
 
 	while (true) {
@@ -468,7 +472,6 @@ int main(int argc, char *argv[]) {
 		token[x] = NULL;
 
 		//creates variables for use during command processing
-		int pid;
 		int status;
 		char msg[256];
 		sprintf(msg, "ldsh: %s", token[0]);
@@ -520,6 +523,9 @@ int main(int argc, char *argv[]) {
 		} else {
 			n = write(STDOUT_FILENO, "\n", 1);
 			if ((pid = fork()) == 0) {
+				signal(SIGINT, SIG_DFL);
+				signal(SIGQUIT, SIG_DFL);
+				ExitRawMode();
 				execvp(token[0], token);
 				perror(msg);
 				_exit(1);
@@ -539,6 +545,7 @@ int main(int argc, char *argv[]) {
 				} else {
 					nonewline = 0;
 				}
+				TermRawMode();
 			}
 		}
 	fflush(stdout);
