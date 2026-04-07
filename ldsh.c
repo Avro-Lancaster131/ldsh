@@ -383,7 +383,7 @@ int main(int argc, char *argv[]) {
 				n = write(STDOUT_FILENO, "^C", 2);
 				goto init;
                         } else if (cmd == 127 || cmd == 8 || cmd == '\b') {
-				if (buffer[pos + 1] == '\0') {
+				if (buffer[pos] == '\0') {
 					if (pos > 0) {
 						--pos;
 						buffer[pos] = '\0';
@@ -392,10 +392,10 @@ int main(int argc, char *argv[]) {
 				} else {
 					if (pos > 0) {
 						--pos;
-						for (i = 1; buffer[pos + i] != '\0'; ++i) {
-							buffer[pos + i - 1] = buffer[pos + i];
+						for (i = pos; buffer[i] != '\0'; ++i) {
+							buffer[i] = buffer[i + 1];
 						}
-						buffer[pos + i - 1] = '\0';
+						buffer[pos + i] = '\0';
 						n = write(STDOUT_FILENO, "\033[K", 3);
                                                 redraw();
 					}
