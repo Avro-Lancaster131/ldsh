@@ -458,11 +458,7 @@ int main(int argc, char *argv[]) {
 			} else if (cmd == 3) { //^C
 				n = write(STDOUT_FILENO, "^C", 2);
 				goto init;
-<<<<<<< HEAD
-                        } else if (cmd == 127 || cmd == 8 || cmd == '\b') {
-=======
                         } else if (cmd == 127 || cmd == 8 || cmd == '\b') { //backspace
->>>>>>> e953299 (Reorganised the code into seperate files so it was easier to see everything, added minimal shell script support, variables, and other minor things)
 				if (buffer[pos] == '\0') {
 					if (pos > 0) {
 						--pos;
@@ -475,11 +471,6 @@ int main(int argc, char *argv[]) {
 						for (i = pos; buffer[i] != '\0'; ++i) {
 							buffer[i] = buffer[i + 1];
 						}
-<<<<<<< HEAD
-						buffer[pos + i] = '\0';
-=======
-						buffer[i] = '\0';
->>>>>>> e953299 (Reorganised the code into seperate files so it was easier to see everything, added minimal shell script support, variables, and other minor things)
 						n = write(STDOUT_FILENO, "\033[K", 3);
 						redraw();
 					}
