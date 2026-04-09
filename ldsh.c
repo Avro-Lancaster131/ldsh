@@ -281,12 +281,12 @@ int commandparse() {
 		unsetenv(token[1]);
 		return 0;
 	} else if (strcmp(token[0], builtins(6)) == 0) { //PS1
-		printf("\n\033[93m!WARNING!\033[0m PS1 as a command is deprecated and is no longer used!");
+		printf("\033[93m!WARNING!\033[0m PS1 as a command is deprecated and is no longer used!\n");
 		return 1;
 	} else if ((strcmp(token[0], builtins(10))) == 0) { //alias
 		if (token[2] == NULL) {
 			if (token[1] != NULL) {
-				printf("alias usage: alias name \"target\"");
+				printf("alias usage: alias name \"target\"\n");
 			} else {
 				for (i = 0; i < 50 && alias[i] != NULL; ++i) {
 					printf("%d\t%s > %s\n", i, alias[i], alias_tgt[i]);
@@ -351,14 +351,14 @@ int main(int argc, char *argv[]) {
         }
 	if (argc > 1) {
 		if (strcmp(argv[1], builtins(4)) == 0) {
-			printf("Limbo Dirt SHell v0.5.0 Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
+			printf("Limbo Dirt SHell v0.5.1, Copyright (C) 2026\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to\nredistribute it under certain conditions\nSee LICENSE for more details.\nThere is NO WARRANTY, to the extent permitted by law.\n");
 			exit(0);
 		} else {
 			shellscript(argv[1]);
 			exit(0);
 		}
 	}
-	printf("Limbo Dirt SHell v0.5.0, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
+	printf("Limbo Dirt SHell v0.5.1, There is NO WARRANTY, to the extent permitted by law.\nRead GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html> for more info.\n");
 	dblpath = NULL;
 	shellscript(pointermerger(getenv("HOME"), "/.ldshrc"));
 	while (true) {
