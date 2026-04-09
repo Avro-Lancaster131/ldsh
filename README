@@ -1,8 +1,7 @@
-Limbo Dirt SHell v0.4.0 README
+Limbo Dirt SHell v0.5.0 README
 Summary:
-ldsh is a lightweight shell, only around ~25KB in size once compiled.
-It's quite basic, only running commands and outputting error codes, meaning it does not have any form of shell script support.
-(To run shell scripts simply write bash ./foo.sh, or whatever shell you use)
+ldsh is a lightweight shell, only around 35KB in size once compiled.
+It's quite basic, but has more features now, including some form of shell scripting (no if conditions nor while/for loops yet)
 
 Installation:
 ldsh is built with the make build system, so simply follow the instructions of that.
@@ -16,21 +15,21 @@ exit: leaves the shell and either returns you to your previous shell, bash, zsh 
 cd: changes directory, checks if arg1 is a real directory, then changes to it
 ldsh --version: prints the version of ldsh.
 help: prints this help menu inside of the shell
-PS1: sets the ps1 variable inside of the shell. (Prints if args are empty)
+export: exports a variable to the env table (also used like dest=src like in C)
+alias: sets one command to another, Usage: alias foo "foo bar" (notice the lack of an = sign)
+unset: unsets a variable from the env table.
+history: prints history number, then command, just like in bash. (history only goes back 100 lines, and is reset every time the shell is entered)
 PS1 usage: there are 17 total args, \grn, \red, \blu, \clr, \yel, \cyn, \mag, \bred, \bblu, \bgrn, \byel, \bmag, \bcyn and \wht.
 if you type \wh neither w nor \wht will be interpreted), (you can only have 15 colours), (the b prefix is for bright, or the \033[9*m series of ASCII codes). 
 PS1 usage: for letters, \u prints your USER, or the USER variable, \w for the working directory \$ just prints $.
-history: prints history number, then command, just like in bash. (history only goes back 100 lines, and is reset every time the shell is entered)
 Ctrl + Commands:
 Ctrl + C: Either Kills the child process or discards the current command and prints a new prompt.
 Ctrl + L: Clears the screen.
 Ctrl + \: Emergency Exit from the shell, or sends SIGQUIT to the child process, don't know why you'd need this, but it's there.
 
 How often will this be updated?
-I don't know anymore. I've updated this too frequently in the beginning to know what I really am capable of.
-I am one person with practically 0 knowledge of C.
-This is my greatest project yet, it's ballooning in size, it went from 73 lines - ~550 in like 4 versions. (I added like 220 lines this version)
-If you have suggestions to add, add them where normal bugs are reported.
+When I feel my code is satisfactory for others to use, I will
+please mind I am 1 person though, and can't include everything, there are only about 750-800 lines I think?
 
 Licensing:
 This is free software licensed under GPLv3+
@@ -39,3 +38,7 @@ Read LICENSE for more details.
 Bug Reporting:
 If you encounter bugs please feel free to reach out and file a report!
 You can file them on github and I'll get to them when I get to them.
+
+Known bugs: (might fix)
+if you have a ~/.ldshrc file, and decide to include PS1 and alias there, if PS1 comes before alias it won't work.
+(not too sure about any others, please report them if you find any)

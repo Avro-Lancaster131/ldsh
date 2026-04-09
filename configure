@@ -2,9 +2,9 @@
 
 # Default values
 CXX=${CXX:-gcc}
-CXXFLAGS=${CXXFLAGS:--O2}
 TARGET=${TARGET:-ldsh}
 PREFIX=/usr/local
+CXXFLAGS=${CXXFLAGS:--O2}
 
 #parse options
 for arg in "$@"; do
@@ -17,7 +17,11 @@ for arg in "$@"; do
 		echo "Args:"
 		echo "	--prefix=PATH	install files to PATH (default is /usr/local)"
 		echo "	--help, -h	show this help message"
+		echo "	--with-debug-symbols	pass debug symbols to the compiler"
 		exit 0
+		;;
+	--with-debug-symbols)
+		CXXFLAGS="$CXXFLAGS -g -O0"
 		;;
 	*)
 		echo "Unknown option $arg"

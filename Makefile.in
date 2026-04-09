@@ -6,7 +6,7 @@ PREFIX=@PREFIX@
 all: $(TARGET)
 
 $(TARGET): ldsh.c
-	$(CXX) $(CXXFLAGS) ldsh.c -o $(TARGET) 
+	$(CXX) $(CXXFLAGS) ldsh.c ps1eval.c ps1prt.c redraw.c ps1vars.c shells.c -o $(TARGET)
 
 install: $(TARGET)
 	install -Dm775 $(TARGET) $(PREFIX)/bin/$(TARGET)
